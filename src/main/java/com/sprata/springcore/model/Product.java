@@ -34,12 +34,18 @@ public class Product {
     @Column(nullable = false)
     private int myprice;
 
+    @Column(nullable = false)
+    private Long userId; // 회원의 아이디를 저장한다
+
+
     // 관심 상품 생성 시 이용합니다.
-    public Product(ProductRequestDto requestDto) {
+    public Product(ProductRequestDto requestDto, Long userId) {
+        //관심 상품을 등록하 회원 테이블 Id저장
         this.title = requestDto.getTitle();
         this.image = requestDto.getImage();
         this.link = requestDto.getLink();
         this.lprice = requestDto.getLprice();
         this.myprice = 0;
+        this.userId = userId;
     }
 }

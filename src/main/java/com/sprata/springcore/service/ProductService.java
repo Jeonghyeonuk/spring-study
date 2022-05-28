@@ -4,6 +4,7 @@ import com.sprata.springcore.model.Product;
 import com.sprata.springcore.dto.ProductMypriceRequestDto;
 import com.sprata.springcore.repository.ProductRepository;
 import com.sprata.springcore.dto.ProductRequestDto;
+import com.sprata.springcore.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,14 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
+
     @Autowired //등록된 bean을 꺼내올때 사용한다
     public ProductService(ProductRepository productRepository){
         this.productRepository = productRepository;
     }
-    public Product creatProduct(ProductRequestDto requestDto){
+    public Product creatProduct(ProductRequestDto requestDto, Long userId){
         // 요청받은 DTO 로 DB에 저장할 객체 만들기
-        Product product = new Product(requestDto);
+        Product product = new Product(requestDto, userId);
         productRepository.save(product);
 
         return product;
@@ -37,11 +39,14 @@ public class ProductService {
         return product;
     }
 
-    public List<Product> getProducts(){
-        List<Product> products = productRepository.findAll();
+    public List<Product> getProducts(Long userId){
+        return productRepository.findAllByUserId(userId);
 
-        return products;
+    }
 
+    //관리자용 상품 전체조회
+    public List<Product> getAllProducts(){
+        return productRepository.findAll();
     }
 }
 

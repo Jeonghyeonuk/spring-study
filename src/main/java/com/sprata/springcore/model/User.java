@@ -9,11 +9,11 @@ import javax.persistence.*;
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
-@Entity(name = "Userinfo") // DB 테이블 역할을 합니다, 이름을 userinfo로한다,테스트 하실 때 application.propertise 테이블 만드는 설정 있을텐데 있으면 지우거나 다르게 설정하면 테이블 만드는거 컨트롤 할 수 있습니다.
+@Entity(name = "userInfo") // DB 테이블 역할을 합니다.
 public class User {
 
     // ID가 자동으로 생성 및 증가합니다.
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
 
@@ -32,10 +32,22 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+    @Column(unique = true)
+    private Long kakaoId;
+
     public User(String username, String password, String email, UserRoleEnum role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.kakaoId = null;
+    }
+
+    public User(String username, String password, String email, UserRoleEnum role, Long kakaoId) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.kakaoId = kakaoId;
     }
 }
